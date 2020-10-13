@@ -41,7 +41,7 @@
                 android:textStyle="normal"
                 android:textAppearance="@android:style/TextAppearance.Holo.Medium"
                 android:textColor="#222222"
-                android:text="@string/calendar_year"/>
+                android:hint="@string/calendar_year"/>
             <!-- date title -->
             <TextView
                 android:id="@+id/text_date_display_date"
@@ -52,7 +52,7 @@
                 android:textStyle="bold"
                 android:textAppearance="@android:style/TextAppearance.Large"
                 android:textColor="#222222"
-                android:text="@string/calendar_date"/>
+                android:hint="@string/calendar_date"/>
             <!-- date title -->
             <TextView
                 android:id="@+id/text_date_display_day"
@@ -62,7 +62,7 @@
                 android:textSize="20sp"
                 android:textAppearance="@android:style/TextAppearance.Medium"
                 android:textColor="#222222"
-                android:text="@string/calendar_day"/>
+                android:hint="@string/calendar_day"/>
 
             <Button
                 android:id="@+id/button_today"

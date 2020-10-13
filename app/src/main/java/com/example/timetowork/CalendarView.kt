@@ -38,7 +38,7 @@ class CalendarView: LinearLayout {
 
         inputCalendar.set(Calendar.DAY_OF_YEAR, 1)
 
-        val monthBeginningCell = inputCalendar.get(Calendar.DAY_OF_WEEK)
+        val monthBeginningCell = inputCalendar.get(Calendar.DAY_OF_WEEK - 1)
 
         inputCalendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell)
 

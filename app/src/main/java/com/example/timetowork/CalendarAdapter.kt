@@ -3,18 +3,20 @@ package com.example.timetowork
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import org.w3c.dom.Text
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashSet
 
-class CalendarAdapter(context: Context, days: ArrayList<Date>, eventDays: HashSet<Date>,
-                      inputMonth: Int) :
-    ArrayAdapter<Date>(context, R.layout.calendar_layout, days) {
+class CalendarAdapter(
+    context: Context, days: ArrayList<Date>, eventDays: HashSet<Date>,
+    inputMonth: Int
+) :
+    ArrayAdapter<Date>(context, R.layout.item_calendar_day, days) {
 
     private val inflater : LayoutInflater = LayoutInflater.from(context)
     private val inputMonth = inputMonth - 1
@@ -35,17 +37,24 @@ class CalendarAdapter(context: Context, days: ArrayList<Date>, eventDays: HashSe
         val calendarToday = Calendar.getInstance()
         calendarToday.time = today
 
-        // 날짜 디자인으로 먼저 만들어 둔 calendar_day_layout inflate
+        // 날짜 디자인으로 먼저 만들어 둔 item_calendar_day inflate
         if (view == null) {
-            view = inflater.inflate(R.layout.calendar_day_layout, parent, false)
+            view = inflater.inflate(R.layout.item_calendar_day, parent, false)
+
+
+            //여기에서 기호에 따라 뷰의 생김새와 일자의 디자인을 변경이 가능
+            (view as TextView).setTypeface(null, Typeface.NORMAL)
+            view.setTextColor(Color.parseColor("#56a6a9"))
         }
 
-        //여기에서 기호에 따라 뷰의 생김새와 일자의 디자인을 변경이 가능
-        (view as TextView).setTypeface(null, Typeface.NORMAL)
-        view.setTextColor(Color.parseColor("#56a6a9"))
 
         if (month != inputMonth || year != calendarToday.get(Calendar.YEAR)) {
-            view.visibility = View.INVISIBLE
+            (view as TextView).setTextColor(Color.parseColor("#E0E0E0"))
+        } else if (day == calendarToday.get(Calendar.DATE)) {
+            // if it is today, set it to blue/bold
+            (view as TextView).setTextColor(Color.WHITE)
+            (view as TextView).gravity = Gravity.CENTER
+            view.setBackgroundResource(R.drawable.round_textview)
         }
 
         if (month == calendarToday.get(Calendar.MONTH) && year == calendarToday.get(Calendar.YEAR) &&
@@ -55,7 +64,8 @@ class CalendarAdapter(context: Context, days: ArrayList<Date>, eventDays: HashSe
         }
 
         // 날짜를 텍스트뷰에 설정
-        view.text = calendar.get(Calendar.DATE).toString()
+        //view.text_item_day = calendar.get(Calendar.DATE).toString()
+        (view as TextView).text = calendar[Calendar.DATE].toString()
         return view
     }
 }

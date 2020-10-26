@@ -9,15 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import org.w3c.dom.Text
 import java.util.*
 
 class CalendarAdapter(
     context: Context, days: ArrayList<Date>, eventDays: HashSet<Date>,
-    inputMonth: Int
-) :
+    inputMonth: Int) :
     ArrayAdapter<Date>(context, R.layout.item_calendar_day, days) {
 
+    private val eventDays: HashSet<Date>? = null
     private val inflater : LayoutInflater = LayoutInflater.from(context)
     private val inputMonth = inputMonth - 1
 
@@ -26,8 +25,8 @@ class CalendarAdapter(
         var view = view
         val calendar = Calendar.getInstance()
         val date = getItem(position)
-
         calendar.time = date
+
         val day = calendar.get(Calendar.DATE)
         val month = calendar.get(Calendar.MONTH)
         val year = calendar.get(Calendar.YEAR)
@@ -40,31 +39,40 @@ class CalendarAdapter(
         // 날짜 디자인으로 먼저 만들어 둔 item_calendar_day inflate
         if (view == null) {
             view = inflater.inflate(R.layout.item_calendar_day, parent, false)
-
-
-            //여기에서 기호에 따라 뷰의 생김새와 일자의 디자인을 변경이 가능
-            (view as TextView).setTypeface(null, Typeface.NORMAL)
-            view.setTextColor(Color.parseColor("#56a6a9"))
         }
 
+        //여기에서 기호에 따라 뷰의 생김새와 일자의 디자인을 변경이 가능
+        (view as TextView).setTypeface(null, Typeface.NORMAL)
+        view.setTextColor(Color.parseColor("#56a6a9"))
 
+        // 현재 달, 현재 년도 아니면 일자 색 회색
         if (month != inputMonth || year != calendarToday.get(Calendar.YEAR)) {
-            (view as TextView).setTextColor(Color.parseColor("#E0E0E0"))
-        } else if (day == calendarToday.get(Calendar.DATE)) {
-            // if it is today, set it to blue/bold
-            (view as TextView).setTextColor(Color.WHITE)
-            (view as TextView).gravity = Gravity.CENTER
-            view.setBackgroundResource(R.drawable.round_textview)
+            (view).setTextColor(Color.parseColor("#E0E0E0"))
         }
 
         if (month == calendarToday.get(Calendar.MONTH) && year == calendarToday.get(Calendar.YEAR) &&
             day == calendarToday.get(Calendar.DATE)) {
-
-            // 오늘 날짜에 하고 싶은 것
+            // if it is today, set it to blue/bold
+            (view).setTextColor(Color.WHITE)
+            view.gravity = Gravity.CENTER
+            view.setBackgroundResource(R.drawable.round_textview)
         }
 
+         //if this day has an event, specify event image
+        if (eventDays != null) {
+            for (eventDate in eventDays) {
+                if (eventDate.date === day && eventDate.month === month && eventDate.year === year) {
+                    // mark this day for event
+                    break
+                }
+            }
+        }
+
+        // clear styling
+//        tvItemViewCalendar.setTypeface(null, Typeface.NORMAL)
+//        text_item_view_calendar.setTextColor(Color.BLACK)
+
         // 날짜를 텍스트뷰에 설정
-        //view.text_item_day = calendar.get(Calendar.DATE).toString()
         (view as TextView).text = calendar[Calendar.DATE].toString()
         return view
     }

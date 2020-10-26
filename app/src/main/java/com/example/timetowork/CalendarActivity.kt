@@ -17,7 +17,7 @@ class CalendarActivity : AppCompatActivity() {
         //monthGap = pageCount - 1 - position
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH))
-        findViewById<CalendarView>(R.id.calendar_view).updateCalendar(eventDays,calendar)
+        findViewById<CalendarView>(R.id.calendar_view).updateCalendar(eventDays, calendar)
         //container.addView(view)
     }
 }

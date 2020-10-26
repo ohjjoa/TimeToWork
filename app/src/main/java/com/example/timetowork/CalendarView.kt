@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.GridView
-import android.widget.ImageView
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.calendar_layout.view.*
 import java.text.SimpleDateFormat
@@ -14,7 +13,6 @@ import kotlin.collections.ArrayList
 class CalendarView: LinearLayout {
     lateinit var header: LinearLayout
     lateinit var gridView : GridView
-    lateinit var imageCalendarPrev : ImageView
 
     constructor(context: Context) : this(context, null)
 
@@ -27,42 +25,36 @@ class CalendarView: LinearLayout {
         defStyleAttr
     )
 
-    private fun assignUiElements() {
-        header = findViewById(R.id.layout_calendar_header)
-        gridView = findViewById(R.id.grid_calendar)
-        imageCalendarPrev = image_calendar_prev
-    }
-
     fun updateCalendar(events: HashSet<Date>, inputCalendar: Calendar) {
-        val cells = ArrayList<Date>()
-
-        inputCalendar.set(Calendar.DAY_OF_YEAR, 1)
-
-        val monthBeginningCell = inputCalendar.get(Calendar.DAY_OF_WEEK - 1)
-
-        inputCalendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell)
+        val currentDate = Calendar.getInstance()
+        val calendar = currentDate.clone() as Calendar
 
         // 타이틀 업데이트
-        val simpleDateFormat = SimpleDateFormat("EEEE,d MMM,yyyy")
-        val dateToday: List<String> = simpleDateFormat.format(inputCalendar.time).split(",")
+        val simpleDateFormat = SimpleDateFormat("EEEE,MM월 d일,yyyy", Locale.KOREA)
+        val dateToday: List<String> = simpleDateFormat.format(calendar.time).split(",")
         text_date_display_day.text = dateToday[0]
         text_date_display_date.text = dateToday[1]
         text_date_display_year.text = dateToday[2]
 
-        // 그리드에 집어 넣을 cell 들의 setup
-        while (cells.size < (Calendar.DAY_OF_MONTH) +
-            inputCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-            cells.add(inputCalendar.time)
-            inputCalendar.add(Calendar.MONTH, 1)
+        val cells = ArrayList<Date>()
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        // 일요일 부터 시작하기 때문에 1을 감산
+        val monthBeginningCell = calendar.get(Calendar.DAY_OF_WEEK) - 1
+        calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell)
+
+        while (cells.size < 48)
+        {
+            cells.add(calendar.time)
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
         }
 
         // 그리드 업데이트
-        gridView.adapter = CalendarAdapter(
-            context,
-            cells,
-            events,
-            inputCalendar.get(Calendar.MONTH)
-        )
+        gridView.adapter = CalendarAdapter(context, cells, events, inputCalendar.get(Calendar.MONTH))
+    }
+
+    private fun assignUiElements() {
+        header = findViewById(R.id.layout_calendar_header)
+        gridView = findViewById(R.id.grid_calendar)
     }
 
    private fun initControl(context: Context, attrs: AttributeSet) {

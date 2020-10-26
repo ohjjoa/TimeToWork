@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView
-    android:id="@+id/layout_item_view_calendar"
+    android:id="@+id/text_item_view_calendar"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="48dp"
     android:textSize="16sp"
     android:layout_centerInParent="true"
     android:gravity="center"
-    android:text="00" />
+    android:text="@string/calendar_item_day" />

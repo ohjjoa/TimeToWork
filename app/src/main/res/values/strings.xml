@@ -2,8 +2,9 @@
     <string name="app_name">TimeToWork</string>
 
     <!-- calender -->
+    <string name="calendar_header_type">EEEE,MM d,yyyy</string>
     <string name="calendar_year">2020</string>
-    <string name="calendar_date">17 Feb</string>
+    <string name="calendar_date">12월27일</string>
     <string name="calendar_day">Saturday</string>
     <string name="calendar_button_today">Go to today</string>
     <string name="calendar_monday">MON</string>
@@ -13,4 +14,5 @@
     <string name="calendar_friday">FRI</string>
     <string name="calendar_saturday">SAT</string>
     <string name="calendar_sunday">SUN</string>
+    <string name="calendar_item_day">00</string>
 </resources>

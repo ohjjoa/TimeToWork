@@ -12,16 +12,14 @@ import android.widget.TextView
 import java.util.*
 
 class CalendarAdapter(
-    context: Context, days: ArrayList<Date>, eventDays: HashSet<Date>,
-    inputMonth: Int) :
+    context: Context, days: ArrayList<Date>, eventDays: HashSet<Date>) :
     ArrayAdapter<Date>(context, R.layout.item_calendar_day, days) {
 
     private val eventDays: HashSet<Date>? = null
     private val inflater : LayoutInflater = LayoutInflater.from(context)
-    private val inputMonth = inputMonth - 1
+    //private val inputMonth = inputMonth - 1
 
     override fun getView(position: Int, view: View?, parent: ViewGroup) : View {
-
         var view = view
         val calendar = Calendar.getInstance()
         val date = getItem(position)
@@ -46,10 +44,13 @@ class CalendarAdapter(
         view.setTextColor(Color.parseColor("#56a6a9"))
 
         // 현재 달, 현재 년도 아니면 일자 색 회색
-        if (month != inputMonth || year != calendarToday.get(Calendar.YEAR)) {
+        if (month != calendarToday.get(Calendar.MONTH) || year != calendarToday.get(Calendar.YEAR)) {
             (view).setTextColor(Color.parseColor("#E0E0E0"))
+        } else {
+            (view).setTextColor(Color.parseColor("#000000"))
         }
 
+        // 오늘 날짜 표시
         if (month == calendarToday.get(Calendar.MONTH) && year == calendarToday.get(Calendar.YEAR) &&
             day == calendarToday.get(Calendar.DATE)) {
             // if it is today, set it to blue/bold
@@ -68,12 +69,8 @@ class CalendarAdapter(
             }
         }
 
-        // clear styling
-//        tvItemViewCalendar.setTypeface(null, Typeface.NORMAL)
-//        text_item_view_calendar.setTextColor(Color.BLACK)
-
         // 날짜를 텍스트뷰에 설정
-        (view as TextView).text = calendar[Calendar.DATE].toString()
+        (view).text = calendar[Calendar.DATE].toString()
         return view
     }
 }

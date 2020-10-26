@@ -6,5 +6,6 @@
 
 
     <!--calendar -->
+    <color name="item_week_day">#E0E0E0</color>
 
 </resources>

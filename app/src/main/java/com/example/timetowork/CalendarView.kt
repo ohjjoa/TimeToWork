@@ -47,9 +47,8 @@ class CalendarView: LinearLayout {
             cells.add(calendar.time)
             calendar.add(Calendar.DAY_OF_MONTH, 1)
         }
-
         // 그리드 업데이트
-        gridView.adapter = CalendarAdapter(context, cells, events, inputCalendar.get(Calendar.MONTH))
+        gridView.adapter = CalendarAdapter(context, cells, events)
     }
 
     private fun assignUiElements() {
